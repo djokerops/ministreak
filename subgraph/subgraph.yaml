@@ -1,0 +1,38 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+
+dataSources:
+  - kind: ethereum/contract
+    name: CeloGrindVault
+    network: celo-alfajores  # switch to "celo" for mainnet
+    source:
+      address: "0x0000000000000000000000000000000000000000"  # TODO: fill after deploy
+      abi: CeloGrindVault
+      startBlock: 0  # TODO: fill with deployment block number
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Round
+        - Player
+        - PlayerRound
+        - DailyStreak
+      abis:
+        - name: CeloGrindVault
+          file: ./abis/CeloGrindVault.json
+      eventHandlers:
+        - event: RoundStarted(indexed uint256,uint256,uint256)
+          handler: handleRoundStarted
+        - event: PlayerEntered(indexed uint256,indexed address,uint256)
+          handler: handlePlayerEntered
+        - event: StreakRecorded(indexed uint256,indexed address,uint256,uint256,uint256)
+          handler: handleStreakRecorded
+        - event: RoundResolved(indexed uint256,indexed address,indexed address,address,uint256,uint256)
+          handler: handleRoundResolved
+        - event: RoundRefunded(indexed uint256,uint256,uint256)
+          handler: handleRoundRefunded
+        - event: RefundClaimed(indexed uint256,indexed address,uint256)
+          handler: handleRefundClaimed
+      file: ./src/mapping.ts

@@ -1,0 +1,16 @@
+{
+  "name": "celo-grind-subgraph",
+  "version": "1.0.0",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy:studio": "graph deploy --studio celo-grind",
+    "deploy:hosted": "graph deploy --product hosted-service YOUR_GITHUB_USER/celo-grind",
+    "create:local": "graph create --node http://localhost:8020/ celo-grind",
+    "deploy:local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 celo-grind"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.71.0",
+    "@graphprotocol/graph-ts": "^0.32.0"
+  }
+}

@@ -1,0 +1,28 @@
+node_modules/
+.env
+.env.local
+*.log
+
+# Hardhat
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+
+# Oracle
+oracle-service/oracle.db
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Subgraph
+subgraph/build/
+subgraph/generated/
+
+# IDE
+.vscode/
+.idea/
+
+# Claude/Agents
+.claude/
+.agents/

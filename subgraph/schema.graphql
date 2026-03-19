@@ -1,0 +1,71 @@
+"""
+Represents a weekly competition round.
+"""
+type Round @entity {
+  id: ID!                         # roundId as string
+  roundId: BigInt!
+  startTime: BigInt!
+  endTime: BigInt!
+  pot: BigDecimal!                # total cUSD pot (formatted, e.g. 10.0)
+  potRaw: BigInt!                 # raw wei amount
+  status: RoundStatus!
+  playerCount: BigInt!
+  winner: Player                  # 1st place winner (null until resolved)
+  playerRounds: [PlayerRound!]! @derivedFrom(field: "round")
+  createdAt: BigInt!
+  resolvedAt: BigInt
+  txHash: Bytes!
+}
+
+enum RoundStatus {
+  Open
+  Closed
+  Resolved
+  Refunded
+}
+
+"""
+Represents a unique wallet that has played at least one round.
+"""
+type Player @entity {
+  id: ID!                         # player address (lowercased)
+  address: Bytes!
+  totalRoundsEntered: BigInt!
+  totalWinnings: BigDecimal!      # cumulative cUSD winnings
+  totalWinningsRaw: BigInt!
+  bestStreak: BigInt!             # all-time best streak across all rounds
+  playerRounds: [PlayerRound!]! @derivedFrom(field: "player")
+  firstSeenAt: BigInt!
+}
+
+"""
+A player's participation record for a specific round.
+"""
+type PlayerRound @entity {
+  id: ID!                         # roundId + "-" + playerAddress
+  player: Player!
+  round: Round!
+  streak: BigInt!                 # current/final streak count
+  volume: BigDecimal!             # cumulative qualifying cUSD volume
+  volumeRaw: BigInt!
+  rank: BigInt                    # null until round resolved
+  payout: BigDecimal              # null until round resolved
+  payoutRaw: BigInt
+  dailyStreaks: [DailyStreak!]! @derivedFrom(field: "playerRound")
+}
+
+"""
+A single qualifying streak transaction for a given day in a round.
+"""
+type DailyStreak @entity {
+  id: ID!                         # roundId + "-" + playerAddress + "-" + dayIndex
+  player: Player!
+  round: Round!
+  playerRound: PlayerRound!
+  dayIndex: BigInt!               # 0 = first day, 6 = last day
+  volume: BigDecimal!             # qualifying cUSD volume for this day
+  volumeRaw: BigInt!
+  newStreak: BigInt!              # streak count after this day
+  timestamp: BigInt!
+  txHash: Bytes!
+}
