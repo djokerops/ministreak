@@ -1,29 +1,29 @@
 /**
  * contracts.ts
  * Typed contract definitions for wagmi hooks.
+ *
+ * IMPORTANT: Next.js only inlines NEXT_PUBLIC_* env vars when accessed as
+ * static string literals (process.env.NEXT_PUBLIC_FOO). Dynamic access via
+ * process.env[key] is NOT replaced at build time.
  */
 
-function getEnv(key: string): string {
-  return (process.env[key] || "").trim();
-}
-
 export const VAULT_ADDRESS =
-  (getEnv("NEXT_PUBLIC_VAULT_ADDRESS") as `0x${string}`) ||
+  ((process.env.NEXT_PUBLIC_VAULT_ADDRESS || "").trim() as `0x${string}`) ||
   "0x0000000000000000000000000000000000000000";
 
 export const ORACLE_ADDRESS =
-  (getEnv("NEXT_PUBLIC_ORACLE_ADDRESS") as `0x${string}`) ||
+  ((process.env.NEXT_PUBLIC_ORACLE_ADDRESS || "").trim() as `0x${string}`) ||
   "0x0000000000000000000000000000000000000000";
 
 export const USDT_ADDRESS =
-  (getEnv("NEXT_PUBLIC_USDT_ADDRESS") as `0x${string}`) ||
+  ((process.env.NEXT_PUBLIC_USDT_ADDRESS || "").trim() as `0x${string}`) ||
   "0x0000000000000000000000000000000000000000";
 
 export const CHARITY_ADDRESS =
-  (getEnv("NEXT_PUBLIC_CHARITY_ADDRESS") as `0x${string}`) ||
+  ((process.env.NEXT_PUBLIC_CHARITY_ADDRESS || "").trim() as `0x${string}`) ||
   "0x4C6Aa14F58aFb01CB0515aD33e03Ec16a67f4E55";
 
-export const ENTRY_FEE = BigInt("500000"); // 0.50 USDT (6 decimals)
+export const ENTRY_FEE = BigInt("100000"); // 0.10 USDT (6 decimals)
 
 // ─── ABIs ─────────────────────────────────────────────────────────────────────
 

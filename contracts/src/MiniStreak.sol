@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /**
  * @title MiniStreak
- * @notice Weekly transaction streak competition on Celo. Players pay 0.5 USDT to enter,
+ * @notice Weekly transaction streak competition on Celo. Players pay 0.1 USDT to enter,
  *         maintain daily on-chain activity to build streaks, and win a share of the pot.
  * @dev Uses AccessControl for ORACLE_ROLE (StreakOracle) and KEEPER_ROLE (Chainlink Automation).
  *      All token amounts are in 6-decimal USDT (1_000_000 = 1 USDT).
@@ -24,8 +24,8 @@ contract MiniStreak is AccessControl, Pausable, ReentrancyGuard {
 
     // ─── Constants ────────────────────────────────────────────────────────────
 
-    /// @notice Entry fee in USDT (0.5 USDT = 500_000 with 6 decimals)
-    uint256 public constant ENTRY_FEE = 500_000;
+    /// @notice Entry fee in USDT (0.1 USDT = 100_000 with 6 decimals)
+    uint256 public constant ENTRY_FEE = 100_000;
 
     /// @notice Protocol fee basis points (500 = 5%)
     uint256 public constant PROTOCOL_FEE_BPS = 500;

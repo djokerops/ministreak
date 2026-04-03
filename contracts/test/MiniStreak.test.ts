@@ -8,7 +8,7 @@ import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
 const ONE_USDT = ethers.parseUnits("1", 6);
 const HALF_USDT = ethers.parseUnits("0.5", 6);
-const ENTRY_FEE = ethers.parseUnits("0.5", 6);
+const ENTRY_FEE = ethers.parseUnits("0.1", 6);
 const SEVEN_DAYS = 7 * 24 * 60 * 60;
 
 // Minimal ERC20 mock
@@ -121,7 +121,7 @@ describe("MiniStreak", () => {
 
   // ── enterRound ──────────────────────────────────────────────────────────────
   describe("enterRound", () => {
-    it("accepts 0.5 USDT and registers player with txCount=1", async () => {
+    it("accepts 0.1 USDT and registers player with txCount=1", async () => {
       const { vault, usdt, alice, vaultAddress, enterRound } =
         await loadFixture(deployFixture);
 

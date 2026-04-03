@@ -89,17 +89,19 @@ export default function HomePage() {
 
       {/* Entry Button */}
       {isConnected ? (
-        roundLoading ? (
-          <button className="btn-secondary cursor-wait" disabled>
-            Connecting to contract...
-          </button>
-        ) : roundError || !round ? (
-          <div className="card text-center space-y-2">
-            <p className="text-red-400 text-sm font-semibold">Contract unreachable</p>
-            <p className="text-gray-500 text-xs">
-              Make sure you&apos;re connected to Celo Sepolia testnet and the contract is deployed.
-            </p>
-          </div>
+        roundLoading || !round ? (
+          roundError ? (
+            <div className="card text-center space-y-2">
+              <p className="text-red-400 text-sm font-semibold">Contract unreachable</p>
+              <p className="text-gray-500 text-xs">
+                Make sure you&apos;re connected to Celo Sepolia testnet and the contract is deployed.
+              </p>
+            </div>
+          ) : (
+            <button className="btn-secondary cursor-wait" disabled>
+              Connecting to contract...
+            </button>
+          )
         ) : (
           <EntryButton
             roundId={round.roundId}
@@ -144,7 +146,7 @@ export default function HomePage() {
         {howToOpen && (
           <div className="mt-3 space-y-2 text-sm text-gray-400">
             <p>
-              1. Pay <strong className="text-white">0.5 USDT</strong> to enter each
+              1. Pay <strong className="text-white">0.1 USDT</strong> to enter each
               week&apos;s round (Mon 00:00 — Sun 23:59 UTC).
             </p>
             <p>
