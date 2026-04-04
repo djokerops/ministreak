@@ -22,6 +22,7 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 10; // Vercel free plan limit
 
 export async function GET(request: Request) {
+  try {
   // ─── Auth: verify Vercel Cron secret ───────────────────────────────────────
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
@@ -147,5 +148,10 @@ export async function GET(request: Request) {
       { ok: false, error: msg, errors },
       { status: 500 }
     );
+  }
+  } catch (topLevelErr) {
+    const msg = topLevelErr instanceof Error ? topLevelErr.message : String(topLevelErr);
+    console.error(`Oracle top-level crash: ${msg}`);
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
   }
 }
