@@ -43,34 +43,42 @@ export default function RoundTimer({ endTime }: RoundTimerProps) {
   const { days, hours, minutes, seconds } = formatDuration(secondsLeft);
 
   if (!endTime) {
-    return <div className="h-16 bg-gray-800 rounded-xl animate-pulse" />;
+    return <div className="h-16 bg-arcade-card rounded-sm animate-pulse" />;
   }
 
   if (secondsLeft === 0) {
     return (
       <div className="card text-center">
-        <p className="text-gray-400 text-sm">Round ended — awaiting resolution</p>
+        <p className="text-arcade-muted font-pixel" style={{ fontSize: "8px" }}>
+          ROUND ENDED — AWAITING RESOLUTION
+        </p>
       </div>
     );
   }
 
   return (
     <div className="card">
-      <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 text-center">
-        Round ends in
+      <p className="font-pixel text-celo-green text-center mb-2" style={{ fontSize: "7px" }}>
+        ROUND ENDS IN
       </p>
       <div className="flex justify-center gap-3">
         {[
-          { label: "Days", value: days },
-          { label: "Hrs", value: hours },
-          { label: "Min", value: minutes },
-          { label: "Sec", value: seconds },
+          { label: "DAYS", value: days },
+          { label: "HRS", value: hours },
+          { label: "MIN", value: minutes },
+          { label: "SEC", value: seconds },
         ].map(({ label, value }) => (
-          <div key={label} className="flex flex-col items-center">
-            <span className="text-3xl font-black text-white tabular-nums">
+          <div
+            key={label}
+            className="flex flex-col items-center bg-arcade-timer border border-celo-green rounded-sm px-2 py-1"
+            style={{ minWidth: "52px" }}
+          >
+            <span className="font-pixel text-xl text-white tabular-nums">
               {value}
             </span>
-            <span className="text-xs text-gray-500">{label}</span>
+            <span className="font-pixel text-celo-green" style={{ fontSize: "5px" }}>
+              {label}
+            </span>
           </div>
         ))}
       </div>

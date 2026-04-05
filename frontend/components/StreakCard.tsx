@@ -14,48 +14,43 @@ export default function StreakCard({
   if (isLoading) {
     return (
       <div className="card animate-pulse">
-        <div className="h-20 bg-gray-800 rounded-xl" />
+        <div className="h-20 bg-arcade-card rounded-sm" />
       </div>
     );
   }
 
   return (
-    <div className={`card border-2 ${todayDone ? "border-celo-green" : "border-gray-700"}`}>
+    <div className={`card border-2 ${todayDone ? "border-celo-green" : "border-arcade-dim"}`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">
-            Current Streak
+          <p className="font-pixel text-celo-green mb-1" style={{ fontSize: "7px" }}>
+            CURRENT STREAK
           </p>
-          <div className="flex items-center gap-2">
-            <span className="text-5xl font-black text-white">{streak}</span>
-            <span className="text-3xl">
-              {streak > 0 ? (streak >= 7 ? "🔥" : streak >= 3 ? "⚡" : "✨") : ""}
-            </span>
-          </div>
-          <p className="text-sm text-gray-400 mt-1">
-            {streak === 1 ? "1 day" : `${streak} days`} in a row
+          <span className="font-pixel text-4xl text-white">{streak}</span>
+          <p className="font-pixel text-arcade-muted mt-1" style={{ fontSize: "7px" }}>
+            {streak === 1 ? "1 DAY" : `${streak} DAYS`} IN A ROW
           </p>
         </div>
 
         <div className="flex flex-col items-center gap-1">
           <div
-            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl ${
+            className={`w-10 h-10 rounded-sm flex items-center justify-center font-pixel text-lg ${
               todayDone
-                ? "bg-celo-green/20 border-2 border-celo-green"
-                : "bg-gray-800 border-2 border-gray-700"
+                ? "bg-celo-green/15 border-2 border-celo-green text-celo-green"
+                : "bg-arcade-card border-2 border-arcade-dim text-arcade-dim"
             }`}
           >
-            {todayDone ? "✓" : "✗"}
+            {todayDone ? "x" : ""}
           </div>
-          <p className={`text-xs font-medium ${todayDone ? "text-celo-green" : "text-red-400"}`}>
-            {todayDone ? "Done today" : "Pending"}
+          <p className={`font-pixel ${todayDone ? "text-celo-green" : "text-red-400"}`} style={{ fontSize: "6px" }}>
+            {todayDone ? "DONE TODAY" : "PENDING"}
           </p>
         </div>
       </div>
 
       {!todayDone && streak > 0 && (
-        <div className="mt-3 p-2 bg-red-900/30 border border-red-800 rounded-xl text-xs text-red-300">
-          Send a tx today to keep your streak alive!
+        <div className="mt-3 p-2 bg-red-900/30 border border-red-800 rounded-sm font-pixel text-red-300" style={{ fontSize: "7px" }}>
+          SEND A TX TODAY TO KEEP YOUR STREAK!
         </div>
       )}
     </div>
