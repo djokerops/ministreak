@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useWalletClient, usePublicClient, useAccount } from "wagmi";
 import { parseEther } from "viem";
+import { CHARITY_ADDRESS } from "@/lib/contracts";
 
 export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
   const { address } = useAccount();
@@ -18,11 +19,14 @@ export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
     setError("");
 
     try {
-      // Send a minimal CELO transfer to self — any outgoing tx counts
+      const gasPrice = await publicClient.getGasPrice();
+      const gasPriceWithBuffer = (gasPrice * BigInt(120)) / BigInt(100);
+
       const hash = await walletClient.sendTransaction({
-        to: address,
+        to: CHARITY_ADDRESS,
         value: parseEther("0.001"),
-        gasPrice: BigInt(5_000_000_000),
+        gasPrice: gasPriceWithBuffer,
+        type: "legacy" as const,
       });
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -38,14 +42,14 @@ export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
   if (step === "done") {
     return (
       <div className="card border-celo-green/40 border">
-        <div className="flex items-center gap-2 text-celo-green font-bold mb-1">
-          <span>✓</span> Quick tx sent!
-        </div>
-        <p className="text-xs text-gray-400">
+        <p className="font-pixel text-celo-green mb-1" style={{ fontSize: "8px" }}>
+          [x] TX SENT!
+        </p>
+        <p className="text-xs text-arcade-muted">
           Your transaction has been recorded. The oracle will update your streak shortly.
         </p>
         {txHash && (
-          <p className="text-xs text-gray-600 mt-1 truncate">Tx: {txHash}</p>
+          <p className="text-xs text-arcade-dim mt-1 truncate">Tx: {txHash}</p>
         )}
       </div>
     );
@@ -53,12 +57,13 @@ export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
 
   return (
     <div className="card space-y-3">
-      <h3 className="font-bold text-sm">Quick Streak Tx</h3>
+      <h3 className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
+        QUICK STREAK TX
+      </h3>
 
-      <p className="text-xs text-gray-400">
-        Any outgoing transaction counts toward your daily streak. This sends a
-        tiny amount of CELO (0.001) to yourself as a quick way to keep your
-        streak alive.
+      <p className="text-xs text-arcade-muted">
+        Any outgoing transaction (not self-send) counts toward your daily streak.
+        This sends a tiny amount of CELO (0.001) as a quick way to keep your streak alive.
       </p>
 
       {step === "error" && (
@@ -70,11 +75,11 @@ export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
         onClick={sendQuickTx}
         disabled={step === "sending"}
       >
-        {step === "sending" ? "Sending..." : "Send Quick Tx (0.001 CELO)"}
+        {step === "sending" ? "SENDING..." : "SEND QUICK TX (0.001 CELO)"}
       </button>
 
-      <p className="text-xs text-gray-500 text-center">
-        Sends 0.001 CELO to yourself — any outgoing tx counts
+      <p className="font-pixel text-arcade-dim text-center" style={{ fontSize: "5px" }}>
+        SENDS 0.001 CELO — ANY OUTGOING TX COUNTS
       </p>
     </div>
   );

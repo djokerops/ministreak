@@ -19,9 +19,10 @@ export default function EntryButton({
 
   if (isEntered) {
     return (
-      <div className="flex items-center justify-center gap-2 py-3 px-6 bg-celo-green/20 border border-celo-green rounded-2xl">
-        <span className="text-celo-green text-lg">✓</span>
-        <span className="text-celo-green font-bold">You&apos;re In This Week</span>
+      <div className="flex items-center justify-center gap-2 py-3 px-6 bg-celo-green/20 border border-celo-green rounded-sm">
+        <span className="font-pixel text-celo-green" style={{ fontSize: "9px" }}>
+          [x] YOU&apos;RE IN THIS WEEK
+        </span>
       </div>
     );
   }
@@ -29,7 +30,7 @@ export default function EntryButton({
   if (!isOpen) {
     return (
       <button className="btn-secondary cursor-not-allowed" disabled>
-        Round Closed
+        ROUND CLOSED
       </button>
     );
   }
@@ -37,11 +38,13 @@ export default function EntryButton({
   if (step === "done") {
     return (
       <div className="space-y-2">
-        <div className="flex items-center justify-center gap-2 py-3 bg-celo-green/20 border border-celo-green rounded-2xl">
-          <span className="text-celo-green font-bold">Entered! Good luck!</span>
+        <div className="flex items-center justify-center gap-2 py-3 bg-celo-green/20 border border-celo-green rounded-sm">
+          <span className="font-pixel text-celo-green" style={{ fontSize: "9px" }}>
+            ENTERED! GOOD LUCK!
+          </span>
         </div>
         {txHash && (
-          <p className="text-xs text-gray-500 text-center truncate">
+          <p className="text-xs text-arcade-muted text-center truncate">
             Tx: {txHash.slice(0, 20)}...
           </p>
         )}
@@ -52,11 +55,11 @@ export default function EntryButton({
   if (step === "error") {
     return (
       <div className="space-y-2">
-        <div className="p-3 bg-red-900/30 border border-red-800 rounded-xl text-xs text-red-300">
+        <div className="p-3 bg-red-900/30 border border-red-800 rounded-sm text-xs text-red-300">
           {error || "Transaction failed"}
         </div>
         <button onClick={reset} className="btn-secondary">
-          Try Again
+          TRY AGAIN
         </button>
       </div>
     );
@@ -65,10 +68,10 @@ export default function EntryButton({
   const isLoading = step === "approving" || step === "entering";
   const label =
     step === "approving"
-      ? "Approving USDT..."
+      ? "APPROVING..."
       : step === "entering"
-      ? "Entering Round..."
-      : "Enter This Week — 0.1 USDT";
+      ? "ENTERING..."
+      : "ENTER - 0.1 USDT";
 
   return (
     <button
@@ -81,7 +84,7 @@ export default function EntryButton({
       }}
     >
       {isLoading && (
-        <span className="inline-block animate-spin mr-2">⏳</span>
+        <span className="animate-pulse mr-1">...</span>
       )}
       {label}
     </button>
