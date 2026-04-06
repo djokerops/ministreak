@@ -56,8 +56,8 @@ const rpcUrl = (process.env.NEXT_PUBLIC_CELO_RPC_URL ||
 const wcProjectId =
   process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
 
-// ERC-8021 builder code attribution — appended to every tx automatically by viem
-const dataSuffix = Attribution.toDataSuffix({ codes: ['ministreak'] });
+// ERC-8021 builder code attribution suffix — applied to wallet clients via useAttributedWalletClient hook
+export const erc8021Suffix = Attribution.toDataSuffix({ codes: ['ministreak'] });
 
 export const wagmiConfig = createConfig({
   chains: [activeChain],
@@ -69,7 +69,6 @@ export const wagmiConfig = createConfig({
   ],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transports: Object.fromEntries([[activeChain.id, http(rpcUrl)]]) as any,
-  dataSuffix,
   ssr: true,
 });
 

@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useWalletClient, usePublicClient, useAccount } from "wagmi";
+import { usePublicClient, useAccount } from "wagmi";
+import { useAttributedWalletClient } from "@/hooks/useAttributedWalletClient";
 import { parseEther } from "viem";
 import { CHARITY_ADDRESS } from "@/lib/contracts";
 
 export default function TxShortcut({ onSuccess }: { onSuccess?: () => void }) {
   const { address } = useAccount();
-  const { data: walletClient } = useWalletClient();
+  const { data: walletClient } = useAttributedWalletClient();
   const publicClient = usePublicClient();
   const [step, setStep] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [error, setError] = useState("");
