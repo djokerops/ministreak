@@ -11,25 +11,26 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.28.0",
+    "@wagmi/connectors": "^4.1.23",
+    "@wagmi/core": "^2.10.0",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "next": "14.2.3",
+    "ox": "^0.14.10",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "viem": "^2.9.0",
-    "wagmi": "^2.8.0",
-    "@wagmi/connectors": "^4.1.23",
-    "@wagmi/core": "^2.10.0"
+    "wagmi": "^2.8.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.3",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.3"
+    "typescript": "^5.4.0"
   }
 }
