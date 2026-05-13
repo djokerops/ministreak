@@ -73,7 +73,7 @@ cd ../subgraph
 npm install
 ```
 
-Each package has its own `.env.example`. Copy to `.env` and fill in deployer/oracle private keys and RPC URLs. Never commit `.env` or `.env.local` — both are in `.gitignore`.
+Each package has its own `.env.example`. Copy to `.env` and fill in deployer/oracle private keys and RPC URLs.
 
 ### Deploying
 
