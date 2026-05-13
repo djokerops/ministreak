@@ -4,60 +4,123 @@
 
 @layer base {
   :root {
-    --celo-green: #35D07F;
-    --celo-gold: #FBCC5C;
-    --arcade-bg: #0d1117;
-    --arcade-card: #111827;
-    --shadow-green: rgba(53, 208, 127, 0.2);
-    --shadow-btn: #1a6b40;
-  }
-
-  body {
-    @apply antialiased;
+    --paper: #FAF6EC;
+    --paper-tint: #F3EDD8;
+    --paper-deep: #EFE7CC;
+    --ink: #1B1A17;
+    --ink-mute: #6B6452;
+    --ink-faint: #A8A192;
+    --rule: #E5DEC8;
+    --forest: #1B6B3F;
+    --forest-deep: #0F4A2A;
+    --forest-tint: #DEEDE2;
+    --gold: #B8842B;
+    --gold-bright: #E5B445;
+    --gold-tint: #FBEFC9;
+    --coral: #C44536;
+    --coral-tint: #F8DDD7;
   }
 
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
+
+  body {
+    @apply antialiased font-sans text-ink bg-paper;
+    font-size: 15px;
+    line-height: 1.55;
+    /* warm paper grain — tiny dot pattern blends with cream */
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(27, 26, 23, 0.035) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-sans text-ink;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  /* Display scale — sized for hierarchy via weight and size, not font swap */
+  .display-xl, .display-lg, .display-md {
+    @apply font-sans num;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .display-xl { font-size: clamp(56px, 14vw, 84px); font-weight: 700; }
+  .display-lg { font-size: clamp(40px, 11vw, 56px); font-weight: 700; }
+  .display-md { font-size: clamp(28px, 8vw, 36px); font-weight: 700; }
+
+  /* Eyebrow / section labels */
+  .eyebrow {
+    @apply font-sans uppercase tracking-eyebrow text-ink-mute;
+    font-size: 11px;
+    font-weight: 600;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-celo-green text-arcade-bg font-pixel py-3 px-6 rounded-sm
-           active:scale-95 transition-transform disabled:opacity-50
-           disabled:cursor-not-allowed w-full text-center text-xs;
-    box-shadow: 4px 4px 0 var(--shadow-btn);
+    @apply inline-flex items-center justify-center font-sans font-semibold
+           py-3.5 px-6 rounded-full w-full text-center
+           bg-forest text-paper transition-all duration-150
+           active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed;
+    font-size: 15px;
+    box-shadow: 0 1px 0 rgba(27,26,23,0.10), 0 4px 12px -4px rgba(27, 107, 63, 0.45);
   }
-
-  .btn-primary:disabled {
-    box-shadow: none;
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--forest-deep);
   }
 
   .btn-secondary {
-    @apply bg-arcade-card text-gray-100 font-pixel py-3 px-6 rounded-sm
-           border border-arcade-dim active:scale-95 transition-transform
-           disabled:opacity-50 w-full text-center text-xs;
+    @apply inline-flex items-center justify-center font-sans font-semibold
+           py-3.5 px-6 rounded-full w-full text-center
+           bg-surface text-ink transition-all duration-150
+           active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed;
+    font-size: 15px;
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--paper-tint);
   }
 
   .card {
-    @apply bg-arcade-card rounded-sm p-4 border border-celo-green;
-    box-shadow: 4px 4px 0 var(--shadow-green);
+    @apply bg-surface rounded-2xl p-5;
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 1px 0 rgba(27,26,23,0.02),
+      0 8px 28px -16px rgba(27, 26, 23, 0.12);
   }
 
-  .badge {
-    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-xs font-pixel;
+  .card-accent {
+    @apply rounded-2xl p-5;
+    background: linear-gradient(135deg, #FFFFFF 0%, var(--forest-tint) 100%);
+    box-shadow:
+      0 0 0 1px var(--forest),
+      0 12px 36px -18px rgba(27, 107, 63, 0.35);
   }
 
-  .pixel-shadow {
-    box-shadow: 4px 4px 0 var(--shadow-green);
+  .card-gold {
+    @apply rounded-2xl p-5;
+    background: linear-gradient(135deg, #FFFFFF 0%, var(--gold-tint) 100%);
+    box-shadow:
+      0 0 0 1px var(--gold-bright),
+      0 12px 36px -18px rgba(184, 132, 43, 0.30);
   }
 
-  .glow-green {
-    text-shadow: 0 0 8px rgba(53, 208, 127, 0.5);
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
   }
 
-  .glow-gold {
-    text-shadow: 0 0 6px rgba(251, 204, 92, 0.4);
+  .pill-forest { @apply pill bg-forest-tint text-forest; }
+  .pill-gold   { @apply pill bg-gold-tint text-gold; }
+  .pill-muted  { @apply pill bg-paper-tint text-ink-mute; }
+
+  .hairline { @apply border-t border-rule; }
+
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" on, "lnum" on;
   }
 }

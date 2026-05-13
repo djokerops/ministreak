@@ -12,45 +12,46 @@ interface StreakCalendarProps {
   isLoading?: boolean;
 }
 
-const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function StreakCalendar({ dailyStreaks, isLoading }: StreakCalendarProps) {
   if (isLoading) {
     return (
       <div className="card">
-        <div className="h-20 bg-arcade-card rounded-sm animate-pulse" />
+        <div className="h-20 bg-paper-tint rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
     <div className="card">
-      <p className="font-pixel text-celo-green mb-3" style={{ fontSize: "7px" }}>
-        THIS WEEK
-      </p>
-      <div className="grid grid-cols-7 gap-1.5">
+      <p className="eyebrow mb-3">This week</p>
+      <div className="grid grid-cols-7 gap-2">
         {DAY_LABELS.map((label, i) => {
           const streak = dailyStreaks.find((d) => d.dayIndex === i);
           const isCompleted = !!streak;
 
           return (
-            <div key={i} className="flex flex-col items-center gap-1">
+            <div key={i} className="flex flex-col items-center gap-1.5">
               <div
-                className={`w-full aspect-square rounded-sm flex items-center justify-center font-pixel transition-colors ${
+                className={`w-full aspect-square rounded-lg flex items-center justify-center transition-colors ${
                   isCompleted
-                    ? "bg-celo-green text-arcade-bg"
-                    : "bg-arcade-card border border-arcade-dim text-arcade-dim"
+                    ? "bg-forest text-paper"
+                    : "bg-paper-tint border border-rule text-ink-faint"
                 }`}
-                style={{ fontSize: "10px" }}
               >
-                {isCompleted ? "x" : ""}
+                {isCompleted ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12 5 5L20 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : null}
               </div>
-              <span className="font-pixel text-arcade-dim" style={{ fontSize: "4px" }}>
+              <span className="text-[10px] uppercase tracking-cap text-ink-mute">
                 {label}
               </span>
               {isCompleted && (
-                <span className="font-pixel text-celo-green" style={{ fontSize: "4px" }}>
-                  {streak.txCount}TX
+                <span className="text-[10px] font-semibold text-forest num">
+                  {streak.txCount}tx
                 </span>
               )}
             </div>

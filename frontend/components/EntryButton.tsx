@@ -22,9 +22,10 @@ export default function EntryButton({
 
   if (isEntered) {
     return (
-      <div className="flex items-center justify-center gap-2 py-3 px-6 bg-celo-green/20 border border-celo-green rounded-sm">
-        <span className="font-pixel text-celo-green" style={{ fontSize: "9px" }}>
-          [x] YOU&apos;RE IN THIS WEEK
+      <div className="card-accent text-center">
+        <span className="pill-forest">
+          <span className="h-1.5 w-1.5 rounded-full bg-forest" />
+          You’re in this week
         </span>
       </div>
     );
@@ -33,55 +34,51 @@ export default function EntryButton({
   if (!isOpen) {
     return (
       <button className="btn-secondary cursor-not-allowed" disabled>
-        ROUND CLOSED
+        Round closed
       </button>
     );
   }
 
   if (step === "done") {
     return (
-      <div className="flex items-center justify-center gap-2 py-3 bg-celo-green/20 border border-celo-green rounded-sm">
-        <span className="font-pixel text-celo-green" style={{ fontSize: "9px" }}>
-          ENTERED! GOOD LUCK!
-        </span>
+      <div className="card-accent text-center">
+        <p className="font-sans font-bold text-2xl text-forest-deep tracking-tight">
+          Entered! Good luck.
+        </p>
       </div>
     );
   }
 
   if (step === "error") {
     return (
-      <div className="space-y-2">
-        <div className="p-3 bg-red-900/30 border border-red-800 rounded-sm text-xs text-red-300">
+      <div className="space-y-3">
+        <div className="px-4 py-3 rounded-xl bg-coral-tint border border-coral/40 text-coral text-sm">
           {error || "Transaction failed"}
         </div>
         <button onClick={reset} className="btn-secondary">
-          TRY AGAIN
+          Try again
         </button>
       </div>
     );
   }
 
-  // Insufficient USDT — MiniPay rule §2 + §6: show a clear explainer
-  // and redirect to the Deposit deeplink rather than silently failing.
+  // Insufficient USDT — MiniPay rule §2 + §6
   if (eligibility.status === "swap_needed") {
     return (
       <div className="space-y-2">
-        <div className="p-3 bg-celo-gold/10 border border-celo-gold/40 rounded-sm">
-          <p className="font-pixel text-celo-gold mb-1" style={{ fontSize: "8px" }}>
-            USDT NEEDED
-          </p>
-          <p className="text-xs text-gray-300">
-            This game uses USDT. You hold other stablecoins — swap to USDT
-            in MiniPay first, or add USDT directly.
-          </p>
+        <div className="rounded-xl px-4 py-2.5 bg-gold-tint border border-gold-bright/50 text-sm">
+          <span className="font-semibold text-gold">USDT needed.</span>
+          <span className="text-ink-mute ml-1">
+            Swap to USDT in MiniPay or add directly.
+          </span>
         </div>
         <a
           href={MINIPAY_DEPOSIT_DEEPLINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-primary block text-center"
+          className="btn-primary"
         >
-          GET USDT
+          Get USDT
         </a>
       </div>
     );
@@ -90,21 +87,19 @@ export default function EntryButton({
   if (eligibility.status === "deposit_needed") {
     return (
       <div className="space-y-2">
-        <div className="p-3 bg-celo-gold/10 border border-celo-gold/40 rounded-sm">
-          <p className="font-pixel text-celo-gold mb-1" style={{ fontSize: "8px" }}>
-            LOW BALANCE
-          </p>
-          <p className="text-xs text-gray-300">
-            You need at least 0.10 USDT to enter this week&apos;s round.
-          </p>
+        <div className="rounded-xl px-4 py-2.5 bg-gold-tint border border-gold-bright/50 text-sm">
+          <span className="font-semibold text-gold">Low balance.</span>
+          <span className="text-ink-mute ml-1">
+            You need 0.10 USDT to enter this week.
+          </span>
         </div>
         <a
           href={MINIPAY_DEPOSIT_DEEPLINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-primary block text-center"
+          className="btn-primary"
         >
-          DEPOSIT USDT
+          Deposit USDT
         </a>
       </div>
     );
@@ -113,10 +108,10 @@ export default function EntryButton({
   const isLoading = step === "approving" || step === "entering";
   const label =
     step === "approving"
-      ? "APPROVING..."
+      ? "Approving…"
       : step === "entering"
-      ? "ENTERING..."
-      : "ENTER - 0.1 USDT";
+      ? "Entering…"
+      : "Enter this week — 0.10 USDT";
 
   return (
     <button
@@ -128,9 +123,6 @@ export default function EntryButton({
         }
       }}
     >
-      {isLoading && (
-        <span className="animate-pulse mr-1">...</span>
-      )}
       {label}
     </button>
   );

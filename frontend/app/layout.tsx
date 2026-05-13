@@ -45,13 +45,13 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@500&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-arcade-bg text-gray-100 min-h-screen">
+      <body className="min-h-screen">
         <Providers>
-          <div className="max-w-md mx-auto px-4 pb-24">{children}</div>
+          <div className="max-w-md mx-auto px-5 pb-28">{children}</div>
         </Providers>
       </body>
     </html>

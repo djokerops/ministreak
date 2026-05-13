@@ -11,9 +11,7 @@ interface LeaderboardProps {
   highlightAddress?: string;
 }
 
-function rankLabel(rank: number): { text: string; isTop3: boolean } {
-  return { text: `#${rank}`, isTop3: rank <= 3 };
-}
+const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
 export default function Leaderboard({
   entries,
@@ -26,7 +24,7 @@ export default function Leaderboard({
     return (
       <div className="space-y-2">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="h-14 bg-arcade-card rounded-sm animate-pulse" />
+          <div key={i} className="h-16 bg-paper-tint rounded-xl animate-pulse" />
         ))}
       </div>
     );
@@ -34,10 +32,8 @@ export default function Leaderboard({
 
   if (!entries.length) {
     return (
-      <div className="card text-center py-8">
-        <p className="font-pixel text-arcade-muted" style={{ fontSize: "8px" }}>
-          NO PLAYERS YET
-        </p>
+      <div className="card text-center py-10">
+        <p className="text-ink-mute">No players yet — be the first.</p>
       </div>
     );
   }
@@ -45,82 +41,58 @@ export default function Leaderboard({
   const displayedEntries = maxRows ? entries.slice(0, maxRows) : entries;
 
   return (
-    <div className="space-y-2">
-      {/* Header */}
-      <div className="grid grid-cols-12 font-pixel text-arcade-muted px-3 pb-1" style={{ fontSize: "5px" }}>
-        <span className="col-span-1">#</span>
-        <span className="col-span-4">PLAYER</span>
-        <span className="col-span-2 text-center">STREAK</span>
-        <span className="col-span-1 text-center">TXS</span>
-        <span className="col-span-2 text-center">UNIQ</span>
-        {showPrizes && <span className="col-span-2 text-right">PRIZE</span>}
-      </div>
-
-      {displayedEntries.map((entry) => {
+    <div className="card !p-0 overflow-hidden">
+      {displayedEntries.map((entry, idx) => {
         const isMe =
           highlightAddress &&
           entry.address.toLowerCase() === highlightAddress.toLowerCase();
-        const prevEntry = entries[entries.indexOf(entry) - 1];
-        const isTied =
-          prevEntry &&
-          prevEntry.streak === entry.streak &&
-          prevEntry.txCount === entry.txCount &&
-          prevEntry.uniqueToCount === entry.uniqueToCount;
-        const { text: rankText, isTop3 } = rankLabel(entry.rank);
+        const isTop3 = entry.rank <= 3;
+        const medal = MEDAL[entry.rank];
 
         return (
           <div
             key={entry.address}
-            className={`grid grid-cols-12 items-center py-3 px-3 rounded-sm border transition-colors ${
-              isMe
-                ? "bg-celo-green/10 border-celo-green/40"
-                : "bg-arcade-card border-arcade-dim"
-            }`}
+            className={`flex items-center gap-3 px-5 py-4 ${
+              idx > 0 ? "border-t border-rule" : ""
+            } ${isMe ? "bg-forest-tint/50" : ""}`}
           >
-            <span
-              className={`col-span-1 font-pixel ${
-                isTop3 ? "text-celo-gold" : "text-arcade-muted"
-              }`}
-              style={{ fontSize: "9px" }}
-            >
-              {rankText}
-            </span>
+            <div className="w-9 flex-shrink-0 text-center">
+              {medal ? (
+                <span className="text-xl">{medal}</span>
+              ) : (
+                <span className="font-sans font-bold text-ink-mute num">
+                  {entry.rank}
+                </span>
+              )}
+            </div>
 
-            <div className="col-span-4">
-              <p className={`text-xs ${isMe ? "text-celo-green font-bold" : "text-gray-200"}`}>
-                {isMe ? "YOU" : pseudonymFor(entry.address)}
+            <div className="flex-1 min-w-0">
+              <p className={`truncate ${isMe ? "font-semibold text-forest-deep" : "font-medium text-ink"}`}>
+                {isMe ? "You" : pseudonymFor(entry.address)}
               </p>
-              <p className="font-mono text-arcade-dim" style={{ fontSize: "8px" }}>
+              <p className="font-mono text-[11px] text-ink-faint truncate">
                 {shortAddress(entry.address)}
               </p>
             </div>
 
-            <div className="col-span-2 text-center">
-              <span className="font-pixel text-celo-green" style={{ fontSize: "9px" }}>
+            <div className="text-right">
+              <p className={`font-sans font-bold text-xl num leading-none ${isTop3 ? "text-gold" : "text-ink"}`}>
                 {entry.streak}
-              </span>
-              {isTied && (
-                <p className="font-pixel text-celo-gold" style={{ fontSize: "5px" }}>
-                  TIED
-                </p>
-              )}
-            </div>
-
-            <div className="col-span-1 text-center">
-              <span className="text-xs text-arcade-muted">{entry.txCount}</span>
-            </div>
-
-            <div className="col-span-2 text-center">
-              <span className="text-xs text-arcade-muted">{entry.uniqueToCount}</span>
+              </p>
+              <p className="text-[10px] uppercase tracking-cap text-ink-mute mt-1">
+                {entry.txCount} tx
+              </p>
             </div>
 
             {showPrizes && (
-              <div className="col-span-2 text-right">
-                <span className="text-xs text-celo-gold font-medium">
-                  {parseFloat(entry.estimatedPrize) > 0
-                    ? `$${entry.estimatedPrize}`
-                    : "—"}
-                </span>
+              <div className="w-16 text-right">
+                {parseFloat(entry.estimatedPrize) > 0 ? (
+                  <span className="text-sm font-semibold text-forest num">
+                    ${entry.estimatedPrize}
+                  </span>
+                ) : (
+                  <span className="text-ink-faint text-sm">—</span>
+                )}
               </div>
             )}
           </div>

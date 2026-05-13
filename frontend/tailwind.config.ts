@@ -10,21 +10,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        celo: {
-          green: "#35D07F",
-          gold: "#FBCC5C",
+        paper: {
+          DEFAULT: "#FAF6EC",
+          tint: "#F3EDD8",
+          deep: "#EFE7CC",
         },
-        arcade: {
-          bg: "#0d1117",
-          card: "#111827",
-          muted: "#4B5563",
-          dim: "#374151",
-          timer: "#1a1a2e",
+        surface: "#FFFFFF",
+        ink: {
+          DEFAULT: "#1B1A17",
+          mute: "#6B6452",
+          faint: "#A8A192",
+        },
+        rule: "#E5DEC8",
+        forest: {
+          DEFAULT: "#1B6B3F",
+          deep: "#0F4A2A",
+          tint: "#DEEDE2",
+        },
+        gold: {
+          DEFAULT: "#B8842B",
+          bright: "#E5B445",
+          tint: "#FBEFC9",
+        },
+        coral: {
+          DEFAULT: "#C44536",
+          tint: "#F8DDD7",
         },
       },
       fontFamily: {
-        pixel: ['"Press Start 2P"', "monospace"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ['"Fraunces"', "ui-serif", "Georgia", "serif"],
+        sans: ['"DM Sans"', "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+      },
+      letterSpacing: {
+        eyebrow: "0.18em",
+        cap: "0.06em",
+      },
+      boxShadow: {
+        soft: "0 1px 2px rgba(27,26,23,0.04), 0 8px 24px rgba(27,26,23,0.06)",
+        card: "0 1px 0 rgba(27,26,23,0.03), 0 6px 16px -8px rgba(27,26,23,0.10)",
+        ring: "inset 0 0 0 1px #E5DEC8",
       },
     },
   },

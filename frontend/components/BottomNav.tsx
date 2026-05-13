@@ -3,79 +3,52 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-function PixelHome({ active }: { active: boolean }) {
-  const fill = active ? "#35D07F" : "#4B5563";
+function HomeIcon({ active }: { active: boolean }) {
+  const stroke = active ? "#1B6B3F" : "#6B6452";
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 16 16"
-      fill="none"
-      shapeRendering="crispEdges"
-    >
-      {/* Roof */}
-      <rect x="7" y="1" width="2" height="2" fill={fill} />
-      <rect x="5" y="3" width="2" height="2" fill={fill} />
-      <rect x="9" y="3" width="2" height="2" fill={fill} />
-      <rect x="3" y="5" width="2" height="2" fill={fill} />
-      <rect x="11" y="5" width="2" height="2" fill={fill} />
-      {/* Walls */}
-      <rect x="3" y="7" width="2" height="6" fill={fill} />
-      <rect x="11" y="7" width="2" height="6" fill={fill} />
-      <rect x="5" y="11" width="2" height="2" fill={fill} />
-      <rect x="9" y="11" width="2" height="2" fill={fill} />
-      {/* Door */}
-      <rect x="7" y="9" width="2" height="4" fill={fill} />
-      {/* Floor */}
-      <rect x="3" y="13" width="10" height="2" fill={fill} />
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-8.5Z"
+        stroke={stroke}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        fill={active ? "#DEEDE2" : "none"}
+      />
     </svg>
   );
 }
 
-function PixelBoard({ active }: { active: boolean }) {
-  const fill = active ? "#35D07F" : "#4B5563";
+function TrophyIcon({ active }: { active: boolean }) {
+  const stroke = active ? "#1B6B3F" : "#6B6452";
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 16 16"
-      fill="none"
-      shapeRendering="crispEdges"
-    >
-      {/* Person 1 head */}
-      <rect x="2" y="2" width="4" height="4" fill={fill} />
-      {/* Person 1 body */}
-      <rect x="3" y="6" width="2" height="4" fill={fill} />
-      {/* Person 1 arms */}
-      <rect x="1" y="7" width="2" height="2" fill={fill} />
-      <rect x="5" y="7" width="2" height="2" fill={fill} />
-      {/* Person 1 legs */}
-      <rect x="2" y="10" width="2" height="2" fill={fill} />
-      <rect x="4" y="10" width="2" height="2" fill={fill} />
-      {/* Person 2 head */}
-      <rect x="10" y="2" width="4" height="4" fill={fill} />
-      {/* Person 2 body */}
-      <rect x="11" y="6" width="2" height="4" fill={fill} />
-      {/* Person 2 arms */}
-      <rect x="9" y="7" width="2" height="2" fill={fill} />
-      <rect x="13" y="7" width="2" height="2" fill={fill} />
-      {/* Person 2 legs */}
-      <rect x="10" y="10" width="2" height="2" fill={fill} />
-      <rect x="12" y="10" width="2" height="2" fill={fill} />
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M7 4h10v4a5 5 0 0 1-10 0V4Z"
+        stroke={stroke}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        fill={active ? "#FBEFC9" : "none"}
+      />
+      <path d="M7 5H4v2a3 3 0 0 0 3 3" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M17 5h3v2a3 3 0 0 1-3 3" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M9 20h6M12 14v6" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
 
 const NAV_ITEMS = [
-  { href: "/", label: "HOME", Icon: PixelHome },
-  { href: "/leaderboard", label: "BOARD", Icon: PixelBoard },
+  { href: "/", label: "Home", Icon: HomeIcon },
+  { href: "/leaderboard", label: "Board", Icon: TrophyIcon },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-arcade-bg border-t border-celo-green z-50">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-sm"
+      style={{ boxShadow: "0 -1px 0 #E5DEC8, 0 -8px 24px -16px rgba(27,26,23,0.08)" }}
+    >
       <div className="max-w-md mx-auto flex">
         {NAV_ITEMS.map(({ href, label, Icon }) => {
           const isActive = pathname === href;
@@ -83,14 +56,12 @@ export default function BottomNav() {
             <Link
               key={href}
               href={href}
-              className={`flex-1 flex flex-col items-center py-2 gap-0.5 transition-colors ${
-                isActive ? "text-celo-green" : "text-arcade-muted"
+              className={`flex-1 flex flex-col items-center py-3 gap-1 transition-colors ${
+                isActive ? "text-forest" : "text-ink-mute"
               }`}
             >
               <Icon active={isActive} />
-              <span className="font-pixel" style={{ fontSize: "7px" }}>
-                {label}
-              </span>
+              <span className="text-[11px] font-semibold tracking-cap">{label}</span>
             </Link>
           );
         })}

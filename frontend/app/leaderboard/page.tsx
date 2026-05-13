@@ -12,48 +12,50 @@ export default function LeaderboardPage() {
 
   const { data: leaderboard, isLoading } = useLeaderboard(displayRoundId);
 
+  const stats = leaderboard?.round;
+
   return (
-    <main className="pt-6 space-y-4">
-      <h1 className="font-pixel text-lg text-white">LEADERBOARD</h1>
+    <main className="pt-8 space-y-6">
+      <header>
+        <p className="eyebrow text-forest">Live standings</p>
+        <div className="flex items-baseline justify-between mt-1 gap-3">
+          <h1 className="font-sans font-bold text-4xl text-ink leading-none tracking-tight">
+            Leaderboard
+          </h1>
+          {round && (
+            <span className="pill-muted">
+              Round #{round.roundId.toString()}
+            </span>
+          )}
+        </div>
+      </header>
 
-      {/* Round indicator */}
-      {round && (
-        <p className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
-          ROUND #{round.roundId.toString()}
-        </p>
-      )}
-
-      {/* Stats */}
-      {leaderboard?.round && (
-        <div className="grid grid-cols-3 gap-2">
-          <div className="card text-center">
-            <p className="font-pixel text-arcade-muted" style={{ fontSize: "5px" }}>
-              POT
+      {/* Round stats */}
+      {stats && (
+        <div className="grid grid-cols-3 gap-3">
+          <div className="card-gold !p-4 text-center">
+            <p className="eyebrow text-gold !text-[10px]">Pot</p>
+            <p className="font-sans font-bold text-xl num text-ink mt-1">
+              {stats.pot}
             </p>
-            <p className="font-pixel text-celo-gold glow-gold mt-1" style={{ fontSize: "10px" }}>
-              {leaderboard.round.pot} USDT
+            <p className="text-[10px] uppercase tracking-cap text-ink-mute mt-0.5">USDT</p>
+          </div>
+          <div className="card !p-4 text-center">
+            <p className="eyebrow !text-[10px]">Players</p>
+            <p className="font-sans font-bold text-xl num text-ink mt-1">
+              {stats.playerCount}
             </p>
           </div>
-          <div className="card text-center">
-            <p className="font-pixel text-arcade-muted" style={{ fontSize: "5px" }}>
-              PLAYERS
-            </p>
-            <p className="font-pixel text-white mt-1" style={{ fontSize: "10px" }}>
-              {leaderboard.round.playerCount}
-            </p>
-          </div>
-          <div className="card text-center">
-            <p className="font-pixel text-arcade-muted" style={{ fontSize: "5px" }}>
-              STATUS
-            </p>
-            <p className="font-pixel text-white mt-1 uppercase" style={{ fontSize: "10px" }}>
-              {leaderboard.round.status}
+          <div className="card !p-4 text-center">
+            <p className="eyebrow !text-[10px]">Status</p>
+            <p className="font-sans font-bold text-xl text-forest mt-1 capitalize">
+              {stats.status}
             </p>
           </div>
         </div>
       )}
 
-      {/* Full leaderboard */}
+      {/* Full board */}
       <Leaderboard
         entries={leaderboard?.entries ?? []}
         isLoading={isLoading}
@@ -62,16 +64,16 @@ export default function LeaderboardPage() {
       />
 
       {/* Tiebreaker note */}
-      {(leaderboard?.entries.some((e, i, arr) =>
+      {leaderboard?.entries.some((e, i, arr) =>
         i > 0 && arr[i - 1].streak === e.streak
-      )) && (
-        <div className="card font-pixel text-arcade-muted text-center" style={{ fontSize: "6px" }}>
-          RANKED BY STREAK, THEN TX COUNT, THEN UNIQUE ADDRESSES
-        </div>
+      ) && (
+        <p className="text-center text-sm text-ink-mute">
+          Ties broken by tx count, then unique addresses.
+        </p>
       )}
 
-      <p className="font-pixel text-arcade-dim text-center pb-2" style={{ fontSize: "5px" }}>
-        UPDATES EVERY 30 SECONDS
+      <p className="text-center text-xs text-ink-faint">
+        Updates every 30 seconds.
       </p>
     </main>
   );

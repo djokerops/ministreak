@@ -1,34 +1,33 @@
 import Link from "next/link";
 
 /**
- * App footer with legal + support links required by MiniPay submission.
+ * Inline legal/support links. Rendered directly inside the page content
+ * (no global divider, no fixed positioning) to keep the page airy.
  *
- * TODO before submission: replace SUPPORT_HREF with the real support
- * channel (mailto: address, Telegram handle, or web portal URL).
+ * TODO before MiniPay submission: replace SUPPORT_HREF with a real channel
+ * (mailto, Telegram, WhatsApp, or web support portal).
  */
 const SUPPORT_HREF = "mailto:support@example.com"; // TODO: real channel
 
-export default function Footer() {
+export default function LegalLinks() {
   return (
-    <footer className="pt-6 pb-8 border-t border-arcade-dim mt-6">
-      <div className="flex items-center justify-center gap-4 font-pixel text-arcade-muted" style={{ fontSize: "6px" }}>
-        <Link href="/terms" className="hover:text-celo-green transition-colors">
-          TERMS
-        </Link>
-        <span className="text-arcade-dim">|</span>
-        <Link href="/privacy" className="hover:text-celo-green transition-colors">
-          PRIVACY
-        </Link>
-        <span className="text-arcade-dim">|</span>
-        <a
-          href={SUPPORT_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-celo-green transition-colors"
-        >
-          SUPPORT
-        </a>
-      </div>
-    </footer>
+    <div className="flex items-center justify-center gap-5 text-sm text-ink-mute">
+      <Link href="/terms" className="hover:text-forest transition-colors underline-offset-4 hover:underline">
+        Terms
+      </Link>
+      <span className="text-ink-faint">·</span>
+      <Link href="/privacy" className="hover:text-forest transition-colors underline-offset-4 hover:underline">
+        Privacy
+      </Link>
+      <span className="text-ink-faint">·</span>
+      <a
+        href={SUPPORT_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:text-forest transition-colors underline-offset-4 hover:underline"
+      >
+        Support
+      </a>
+    </div>
   );
 }

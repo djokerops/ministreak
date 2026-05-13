@@ -10,6 +10,7 @@ import RoundTimer from "@/components/RoundTimer";
 import EntryButton from "@/components/EntryButton";
 import Leaderboard from "@/components/Leaderboard";
 import WalletBadge from "@/components/WalletBadge";
+import LegalLinks from "@/components/Footer";
 import { useState } from "react";
 
 export default function HomePage() {
@@ -34,58 +35,36 @@ export default function HomePage() {
   );
 
   return (
-    <main className="pt-6 space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <h1 className="font-pixel text-lg text-celo-green glow-green">
-            MINISTREAK
-          </h1>
-          <p className="font-pixel text-arcade-muted" style={{ fontSize: "6px" }}>
-            WEEKLY STREAK GAME
-          </p>
-        </div>
+    <main className="pt-10 space-y-6">
+      {/* Masthead — tagline + wallet on a single line */}
+      <header className="flex items-center justify-between gap-3">
+        <p className="eyebrow text-forest">Weekly streak game</p>
         <WalletBadge />
-      </div>
+      </header>
 
-      {/* Round Status Banner */}
+      {/* Hero — round pot */}
       {round && (
-        <div
-          className="rounded-sm p-4 border-2 border-celo-green pixel-shadow"
-          style={{ background: "linear-gradient(135deg, #1a2332, #0d1117)" }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
-                ROUND #{round.roundId.toString()}
-              </p>
-              <p className="font-pixel text-2xl text-celo-gold glow-gold mt-1">
-                {round.potFormatted} USDT
-              </p>
-              <p className="font-pixel text-arcade-muted mt-1" style={{ fontSize: "7px" }}>
-                {round.playerCount.toString()} PLAYERS IN POT
-              </p>
-            </div>
-            <div className="text-right">
-              <span
-                className={`font-pixel rounded-sm py-1 px-3 border ${
-                  round.isOpen
-                    ? "bg-celo-green/20 text-celo-green border-celo-green/30"
-                    : "bg-arcade-card text-arcade-muted border-arcade-dim"
-                }`}
-                style={{ fontSize: "7px" }}
-              >
-                {round.isOpen ? "OPEN" : "CLOSED"}
-              </span>
-            </div>
-          </div>
-        </div>
+        <section className="rounded-2xl p-6 bg-paper-tint border border-rule">
+          <p className="eyebrow">
+            Round #{round.roundId.toString()} {round.isOpen ? "· Open" : "· Closed"}
+          </p>
+          <p className="display-xl num mt-1">
+            <span className="text-ink">{round.potFormatted}</span>
+            <span className="ml-2 font-sans font-medium text-2xl align-top text-ink-mute">
+              USDT
+            </span>
+          </p>
+          <p className="text-ink-mute text-sm mt-2">
+            {round.playerCount.toString()}{" "}
+            {Number(round.playerCount) === 1 ? "player" : "players"} in the pot
+          </p>
+        </section>
       )}
 
-      {/* Round Timer */}
+      {/* Round timer */}
       <RoundTimer endTime={round?.endTime} />
 
-      {/* Streak Card (only when connected and entered) */}
+      {/* Streak card (if entered) */}
       {isConnected && stats?.entered && (
         <StreakCard
           streak={Number(stats.streak)}
@@ -94,23 +73,19 @@ export default function HomePage() {
         />
       )}
 
-      {/* Entry Button */}
+      {/* Entry CTA */}
       {isConnected ? (
         roundLoading || !round ? (
           roundError ? (
             <div className="card text-center space-y-2">
-              <p className="text-red-400 font-pixel" style={{ fontSize: "8px" }}>
-                CONTRACT UNREACHABLE
-              </p>
-              <p className="text-arcade-muted text-xs">
-                Make sure you&apos;re connected to Celo and the contract is deployed.
+              <p className="text-coral font-semibold">Contract unreachable</p>
+              <p className="text-ink-mute text-sm">
+                Make sure you’re connected to Celo and the contract is deployed.
               </p>
             </div>
           ) : (
             <button className="btn-secondary cursor-wait" disabled>
-              <span className="font-pixel" style={{ fontSize: "8px" }}>
-                CONNECTING...
-              </span>
+              Connecting…
             </button>
           )
         ) : (
@@ -123,18 +98,17 @@ export default function HomePage() {
         )
       ) : (
         <div className="card text-center space-y-3">
-          <p className="text-arcade-muted font-pixel" style={{ fontSize: "7px" }}>
-            CONNECT WALLET TO ENTER
-          </p>
+          <p className="text-ink-mute">Connect a wallet to enter this week.</p>
           <WalletBadge />
         </div>
       )}
 
-      {/* Mini Leaderboard */}
-      <div className="space-y-2">
-        <h2 className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
-          TOP 5 THIS WEEK
-        </h2>
+      {/* Top 5 leaderboard */}
+      <section className="space-y-3">
+        <div className="flex items-end justify-between">
+          <h2 className="font-sans font-bold text-2xl tracking-tight">This week</h2>
+          <span className="eyebrow">Top 5</span>
+        </div>
         <Leaderboard
           entries={leaderboard?.entries ?? []}
           isLoading={lbLoading}
@@ -142,56 +116,45 @@ export default function HomePage() {
           maxRows={5}
           highlightAddress={address}
         />
-      </div>
+      </section>
 
-      {/* How it works */}
-      <div className="card">
+      {/* How to play */}
+      <section className="rounded-2xl p-5 bg-paper-tint border border-rule">
         <button
           onClick={() => setHowToOpen(!howToOpen)}
           className="flex items-center justify-between w-full text-left"
         >
-          <span className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
-            HOW TO PLAY
+          <span className="font-sans font-bold text-lg text-ink tracking-tight">
+            How to play
           </span>
-          <span className="font-pixel text-celo-green" style={{ fontSize: "8px" }}>
-            {howToOpen ? "<<" : ">>"}
+          <span className={`text-forest text-2xl leading-none transition-transform ${howToOpen ? "rotate-45" : ""}`}>
+            +
           </span>
         </button>
 
         {howToOpen && (
-          <div className="mt-3 space-y-2 text-sm text-arcade-muted">
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>01. </span>
-              Pay <strong className="text-white">0.1 USDT</strong> to enter each
-              week&apos;s round (Mon 00:00 — Sun 23:59 UTC).
-            </p>
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>02. </span>
-              Send <strong className="text-white">any outgoing transaction</strong>{" "}
-              every day to build your streak.
-            </p>
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>03. </span>
-              Ranking: <strong className="text-white">longest streak</strong>,
-              then <strong className="text-white">tx count</strong>,
-              then <strong className="text-white">unique addresses</strong>.
-            </p>
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>04. </span>
-              Miss a day? <strong className="text-white">You&apos;re out</strong> — streak resets to zero.
-            </p>
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>05. </span>
-              Winners split the pot:{" "}
-              <strong className="text-white">50% / 30% / 20%</strong> (minus 5% fee).
-            </p>
-            <p>
-              <span className="font-pixel text-celo-green" style={{ fontSize: "7px" }}>06. </span>
-              Fewer than 3 players? All entry fees are refunded.
-            </p>
-          </div>
+          <ol className="mt-4 space-y-3 text-ink leading-relaxed">
+            {[
+              <>Pay <strong>0.10 USDT</strong> to enter each week’s round (Mon 00:00 — Sun 23:59 UTC).</>,
+              <>Send <strong>any outgoing transaction</strong> every day to build your streak.</>,
+              <>Ranking: longest streak, then tx count, then unique addresses.</>,
+              <>Miss a day? <strong>You’re out</strong> — streak resets to zero.</>,
+              <>Winners split the pot <strong>50 / 30 / 20</strong> (minus 5% fee).</>,
+              <>Fewer than 3 players? All entry fees are refunded.</>,
+            ].map((line, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="font-sans font-bold text-forest num shrink-0 w-6">
+                  0{i + 1}
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ol>
         )}
-      </div>
+      </section>
+
+      {/* Inline legal + support (replaces the global footer divider) */}
+      <LegalLinks />
     </main>
   );
 }

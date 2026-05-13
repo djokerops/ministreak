@@ -14,26 +14,36 @@ export default function StreakCard({
   if (isLoading) {
     return (
       <div className="card animate-pulse">
-        <div className="h-20 bg-arcade-card rounded-sm" />
+        <div className="h-20 bg-paper-tint rounded-xl" />
       </div>
     );
   }
 
   return (
-    <div className={`card border-2 ${todayDone ? "border-celo-green" : "border-arcade-dim"}`}>
-      <div className="text-center">
-        <p className="font-pixel text-celo-green mb-1" style={{ fontSize: "7px" }}>
-          CURRENT STREAK
-        </p>
-        <span className="font-pixel text-4xl text-white">{streak}</span>
-        <p className="font-pixel text-arcade-muted mt-1" style={{ fontSize: "7px" }}>
-          {streak === 1 ? "1 DAY" : `${streak} DAYS`} IN A ROW
-        </p>
+    <div className={todayDone ? "card-accent" : "card"}>
+      <div className="flex items-baseline justify-between gap-3">
+        <div>
+          <p className="eyebrow">Current streak</p>
+          <p className="display-lg num mt-1">{streak}</p>
+          <p className="text-ink-mute text-sm mt-1">
+            {streak === 1 ? "day" : "days"} in a row
+          </p>
+        </div>
+        <div className="text-right">
+          {todayDone ? (
+            <span className="pill-forest">
+              <span className="h-1.5 w-1.5 rounded-full bg-forest" />
+              Today’s in
+            </span>
+          ) : (
+            <span className="pill-muted">Pending today</span>
+          )}
+        </div>
       </div>
 
       {!todayDone && streak > 0 && (
-        <div className="mt-3 p-2 bg-red-900/30 border border-red-800 rounded-sm font-pixel text-red-300" style={{ fontSize: "7px" }}>
-          SEND A TX TODAY TO KEEP YOUR STREAK!
+        <div className="mt-4 px-4 py-3 rounded-xl bg-coral-tint border border-coral/30 text-coral text-sm">
+          Send a transaction today to keep your streak alive.
         </div>
       )}
     </div>

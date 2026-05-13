@@ -28,8 +28,9 @@ export default function WalletBadge() {
 
   if (isMiniPay && isConnected) {
     return (
-      <div className="badge bg-celo-green/20 text-celo-green border border-celo-green/30" style={{ fontSize: "6px" }}>
-        {address ? pseudonymFor(address) : "CONNECTED"}
+      <div className="pill-forest">
+        <span className="h-1.5 w-1.5 rounded-full bg-forest" />
+        {address ? pseudonymFor(address) : "Connected"}
       </div>
     );
   }
@@ -40,10 +41,9 @@ export default function WalletBadge() {
     return (
       <button
         onClick={() => connect({ connector: injected() })}
-        className="badge bg-arcade-card text-gray-300 border border-arcade-dim hover:border-celo-green transition-colors py-1.5 px-3"
-        style={{ fontSize: "6px" }}
+        className="pill bg-ink text-paper hover:bg-forest-deep transition-colors"
       >
-        CONNECT
+        Connect
       </button>
     );
   }
@@ -51,10 +51,11 @@ export default function WalletBadge() {
   return (
     <button
       onClick={() => disconnect()}
-      className="badge bg-arcade-card text-gray-300 border border-arcade-dim"
-      style={{ fontSize: "6px" }}
+      className="pill-muted hover:bg-paper-deep transition-colors"
+      title="Tap to disconnect"
     >
-      {address ? pseudonymFor(address) : "CONNECTED"}
+      <span className="h-1.5 w-1.5 rounded-full bg-forest" />
+      {address ? pseudonymFor(address) : "Connected"}
     </button>
   );
 }
