@@ -47,7 +47,7 @@ The on-chain layer is two contracts (no proxies, no upgradeability — fixed onc
 | USDT | `0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e` |
 
 
-## Getting Started
+## Getting Started (Run Locally)
 
 The repo is a polyglot monorepo: Solidity (Hardhat), Next.js, a Node oracle, and a subgraph. Each package installs independently.
 
