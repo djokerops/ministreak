@@ -19,11 +19,26 @@ export const USDT_ADDRESS =
   ((process.env.NEXT_PUBLIC_USDT_ADDRESS || "").trim() as `0x${string}`) ||
   "0x0000000000000000000000000000000000000000";
 
-export const CHARITY_ADDRESS =
-  ((process.env.NEXT_PUBLIC_CHARITY_ADDRESS || "").trim() as `0x${string}`) ||
-  "0x4C6Aa14F58aFb01CB0515aD33e03Ec16a67f4E55";
+/**
+ * Celo mainnet stablecoin addresses for the "swap to USDT" explainer.
+ * Both have env overrides so they can be cleared on testnet.
+ */
+export const USDC_ADDRESS =
+  ((process.env.NEXT_PUBLIC_USDC_ADDRESS || "").trim() as `0x${string}`) ||
+  "0xcebA9300f2b948710d2653dD7B07f33A8B32118C"; // Celo mainnet USDC (6 decimals)
+
+export const USDM_ADDRESS =
+  ((process.env.NEXT_PUBLIC_USDM_ADDRESS || "").trim() as `0x${string}`) ||
+  "0x765DE816845861e75A25fCA122bb6898B8B1282a"; // Celo mainnet USDm (18 decimals)
 
 export const ENTRY_FEE = BigInt("100000"); // 0.10 USDT (6 decimals)
+export const ENTRY_FEE_18 = BigInt("100000000000000000"); // 0.10 in 18 decimals (USDm equivalent)
+
+/**
+ * MiniPay deeplink for adding cash. Opens the deposit flow inside MiniPay.
+ * Canonical list: https://docs.minipay.xyz/technical-references/deeplinks.html
+ */
+export const MINIPAY_DEPOSIT_DEEPLINK = "https://minipay.opera.com/add_cash";
 
 // ─── ABIs ─────────────────────────────────────────────────────────────────────
 

@@ -1,6 +1,7 @@
 "use client";
 
 import type { LeaderboardEntry } from "@/hooks/useLeaderboard";
+import { pseudonymFor, shortAddress } from "@/lib/pseudonym";
 
 interface LeaderboardProps {
   entries: LeaderboardEntry[];
@@ -8,10 +9,6 @@ interface LeaderboardProps {
   showPrizes?: boolean;
   maxRows?: number;
   highlightAddress?: string;
-}
-
-function truncateAddress(addr: string): string {
-  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 }
 
 function rankLabel(rank: number): { text: string; isTop3: boolean } {
@@ -52,7 +49,7 @@ export default function Leaderboard({
       {/* Header */}
       <div className="grid grid-cols-12 font-pixel text-arcade-muted px-3 pb-1" style={{ fontSize: "5px" }}>
         <span className="col-span-1">#</span>
-        <span className="col-span-4">WALLET</span>
+        <span className="col-span-4">PLAYER</span>
         <span className="col-span-2 text-center">STREAK</span>
         <span className="col-span-1 text-center">TXS</span>
         <span className="col-span-2 text-center">UNIQ</span>
@@ -90,13 +87,11 @@ export default function Leaderboard({
             </span>
 
             <div className="col-span-4">
-              <p className={`text-xs font-mono ${isMe ? "text-celo-green font-bold" : "text-gray-200"}`}>
-                {truncateAddress(entry.address)}
-                {isMe && (
-                  <span className="font-pixel text-celo-green ml-1" style={{ fontSize: "5px" }}>
-                    YOU
-                  </span>
-                )}
+              <p className={`text-xs ${isMe ? "text-celo-green font-bold" : "text-gray-200"}`}>
+                {isMe ? "YOU" : pseudonymFor(entry.address)}
+              </p>
+              <p className="font-mono text-arcade-dim" style={{ fontSize: "8px" }}>
+                {shortAddress(entry.address)}
               </p>
             </div>
 

@@ -3,16 +3,13 @@
 import { useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
+import { pseudonymFor } from "@/lib/pseudonym";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface Window {
     ethereum?: any;
   }
-}
-
-function truncate(addr: string) {
-  return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 }
 
 export default function WalletBadge() {
@@ -32,7 +29,7 @@ export default function WalletBadge() {
   if (isMiniPay && isConnected) {
     return (
       <div className="badge bg-celo-green/20 text-celo-green border border-celo-green/30" style={{ fontSize: "6px" }}>
-        {address ? truncate(address) : "CONNECTED"}
+        {address ? pseudonymFor(address) : "CONNECTED"}
       </div>
     );
   }
@@ -46,7 +43,7 @@ export default function WalletBadge() {
         className="badge bg-arcade-card text-gray-300 border border-arcade-dim hover:border-celo-green transition-colors py-1.5 px-3"
         style={{ fontSize: "6px" }}
       >
-        CONNECT WALLET
+        CONNECT
       </button>
     );
   }
@@ -57,7 +54,7 @@ export default function WalletBadge() {
       className="badge bg-arcade-card text-gray-300 border border-arcade-dim"
       style={{ fontSize: "6px" }}
     >
-      {address ? truncate(address) : "CONNECTED"}
+      {address ? pseudonymFor(address) : "CONNECTED"}
     </button>
   );
 }

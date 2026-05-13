@@ -1,7 +1,7 @@
 # Celo Grind — Weekly Transaction Streak Leaderboard
 
 A MiniPay Mini App that runs weekly on-chain transaction streak competitions on Celo.
-Players pay 0.5 USDT to enter, maintain daily qualifying transactions to build streaks,
+Players pay 0.10 USDT to enter, maintain daily qualifying transactions to build streaks,
 and the longest streak at week's end wins the USDT pot.
 
 **Game currency:** USDT (MockUSDT on testnets, real USDT on mainnet)
@@ -353,8 +353,8 @@ Update `NEXT_PUBLIC_GRAPH_API_URL` in your frontend env once deployed.
 
 | Rule             | Value                                   |
 |------------------|-----------------------------------------|
-| Entry fee        | 0.5 USDT                                |
-| Min streak tx    | 0.50 USDT (sent or received, no self)   |
+| Entry fee        | 0.10 USDT                               |
+| Qualifying tx    | Any outgoing transaction (no self-sends) |
 | Round duration   | 7 days (Mon 00:00 — Sun 23:59 UTC)      |
 | Protocol fee     | 5%                                      |
 | 1st place prize  | 50% of distributable pot                |
@@ -369,8 +369,8 @@ Update `NEXT_PUBLIC_GRAPH_API_URL` in your frontend env once deployed.
 
 1. **Cron runs every hour** via `node-cron`
 2. **Fetches current round** and all registered players from the vault contract
-3. **Scans USDT Transfer events** for each player on the Celo RPC
-4. **Validates each tx**: `from !== to`, `value >= 0.50 USDT`, block timestamp is today UTC
+3. **Scans all outgoing transactions** for each player via Blockscout API
+4. **Filters out self-sends** (`from !== to`), counts remaining txs for today UTC
 5. **Checks SQLite** to avoid resubmitting already-processed txns
 6. **Calls StreakOracle.submitStreak()** with the proof
 7. **Records the submission** in SQLite
