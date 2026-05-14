@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePublicClient, useAccount } from "wagmi";
-import { useAttributedWalletClient } from "./useAttributedWalletClient";
+import { usePublicClient, useAccount, useWalletClient } from "wagmi";
 import {
   VAULT_ADDRESS,
   VAULT_ABI,
@@ -14,7 +13,7 @@ import {
 type Step = "idle" | "approving" | "entering" | "done" | "error";
 
 export function useEnterRound() {
-  const { data: walletClient } = useAttributedWalletClient();
+  const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const { address } = useAccount();
 

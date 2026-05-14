@@ -20,7 +20,6 @@ Live demo: [ministreak-fe.vercel.app](https://ministreak-fe.vercel.app) · Repos
 - **MiniPay-native** — auto-connect via injected provider, no `personal_sign` / `eth_signTypedData`, USDT/USDC/USDm only (no CELO surfaced in the UI)
 - **Pseudonym identity** — deterministic readable aliases (`BraveTiger-7F2A`) instead of raw `0x…` addresses across the wallet badge and leaderboard
 - **Balance-aware entry CTA** — detects low USDT and routes to MiniPay's `add_cash` deeplink; if you hold USDC or USDm instead, shows a "swap to USDT first" explainer
-- **ERC-8021 builder attribution** — every outgoing transaction carries the `ministreak` calldata suffix via `viem`'s `dataSuffix`
 - **Oracle-backed streak validation** — off-chain scanner verifies daily activity from public RPC, submits on-chain proofs through a role-gated `StreakOracle`
 - **Refund path** — if fewer than 3 players enter, the vault refunds every entry; no need to claim
 - **Subgraph indexing** — The Graph provides fast leaderboard reads with on-chain RPC fallback
@@ -122,7 +121,6 @@ frontend/                     Next.js 14 App Router
   hooks/
     useEnterRound             USDT approve + enterRound, gas-buffered
     useEntryEligibility       Reads USDT/USDC/USDm balances → ready/swap/deposit
-    useAttributedWalletClient Wraps viem walletClient with ERC-8021 dataSuffix
     useLeaderboard            Subgraph query with on-chain RPC fallback
     useCurrentRound,
     usePlayerStats,
@@ -130,7 +128,6 @@ frontend/                     Next.js 14 App Router
   lib/
     contracts.ts              Addresses + ABIs + deeplinks
     pseudonym.ts              FNV-1a hash → readable alias
-    ministreakSuffix.ts       ERC-8021 calldata suffix bytes
     wagmi.ts                  Chain config (Celo / Sepolia / local)
 
 oracle-service/               Node.js + cron streak scanner
