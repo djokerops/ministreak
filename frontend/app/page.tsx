@@ -36,10 +36,14 @@ export default function HomePage() {
 
   return (
     <main className="pt-10 space-y-6">
-      {/* Masthead — tagline + wallet on a single line */}
-      <header className="flex items-center justify-between gap-3">
+      {/* Masthead — logo + wallet on one line, tagline below */}
+      <header className="space-y-0.5">
+        <div className="flex items-center justify-between gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/Logo_Color.svg" alt="MiniStreak" className="h-[25px] w-auto" />
+          <WalletBadge />
+        </div>
         <p className="eyebrow text-forest">Weekly streak game</p>
-        <WalletBadge />
       </header>
 
       {/* Hero — round pot */}
